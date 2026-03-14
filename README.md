@@ -4,6 +4,8 @@ Autonomous construction site inspection rover built on [Cyberwave](https://cyber
 
 Trekker patrols a pre-mapped environment, detects hazards using a YOLOv8 + VLM pipeline, and streams position-tagged anomaly logs to a live supervisory dashboard — all running on a UGV Beast rover.
 
+<img src="trekker.jpeg" width="100%" />
+
 ---
 
 ## System Overview
