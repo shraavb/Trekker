@@ -1,0 +1,62 @@
+# =============================================================================
+# EKF Configuration for robot_localization
+# =============================================================================
+#
+# This config fuses wheel odometry (/odom) and IMU (/imu/data) into a single
+# drift-corrected pose estimate published on /odometry/filtered.
+#
+# Each sensor's *_config is a 15-element boolean array controlling which
+# state variables to fuse from that source:
+#   [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]
+#
+# General rule: fuse what each sensor measures well, don't double-fuse.
+#   - Wheel odometry: good for vx, vy, vyaw (velocities)
+#   - IMU: good for roll, pitch, yaw, angular velocities, linear acceleration
+#
+# See: https://docs.ros.org/en/humble/p/robot_localization/
+# =============================================================================
+
+ekf_filter_node:
+  ros__parameters:
+    # Output rate (Hz) — higher = smoother but more CPU
+    frequency: 30.0
+
+    # Coordinate frames
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom           # Use 'odom' for local; 'map' if fusing GPS via navsat_transform
+
+    # --- Sensor 0: Wheel Odometry ---
+    odom0: /odom
+    odom0_config: [false, false, false,    # x, y, z — don't fuse position (let it integrate)
+                   false, false, false,    # roll, pitch, yaw — IMU handles orientation
+                   true,  true,  false,    # vx, vy, vz — fuse linear velocities
+                   false, false, true,     # vroll, vpitch, vyaw — fuse yaw rate
+                   false, false, false]    # ax, ay, az — wheel odom has no acceleration
+
+    # --- Sensor 1: IMU ---
+    imu0: /imu/data
+    imu0_config: [false, false, false,    # x, y, z — IMU doesn't measure position
+                  true,  true,  true,     # roll, pitch, yaw — fuse orientation
+                  false, false, false,    # vx, vy, vz — IMU doesn't measure linear velocity
+                  true,  true,  true,     # vroll, vpitch, vyaw — fuse angular velocities
+                  true,  false, false]    # ax, ay, az — fuse forward acceleration only
+
+    # If the IMU does not provide absolute orientation, set to true
+    # to integrate angular velocity instead.
+    imu0_differential: false
+
+    # Remove gravitational acceleration from IMU
+    imu0_remove_gravitational_acceleration: true
+
+    # --- Process noise covariance (Q matrix diagonal) ---
+    # TODO: tune these on hardware — start with defaults, increase if filter is sluggish,
+    #       decrease if filter is noisy
+    # process_noise_covariance: [...]
+
+    # --- Initial estimate covariance ---
+    # TODO: tune if initial convergence is slow
+    # initial_estimate_covariance: [...]
+
+    # Print diagnostics to /diagnostics topic
+    print_diagnostics: true
