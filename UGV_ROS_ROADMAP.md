@@ -1,3 +1,4 @@
+## Shraav's intial plan
 # UGV Beast - Construction Inspection Rover
 
 An autonomous site inspection rover built on the UGV Beast platform. The system combines GPS-fused localization via EKF, visual SLAM for environment mapping, Nav2 geofenced autonomous navigation, and a YOLOv8 + VLM hazard detection pipeline with position-tagged anomaly logging streamed to a remote supervisory dashboard.
