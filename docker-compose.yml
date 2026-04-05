@@ -1,0 +1,14 @@
+services:
+  ugv-docker:
+    build: .
+    container_name: ugv-docker
+    ports:
+      - "2222:22"
+    volumes:
+      - ./src:/ros2_ws/src
+      - ./.env:/ros2_ws/.env
+    environment:
+      - ROS_DOMAIN_ID=0
+    stdin_open: true
+    tty: true
+    command: /bin/bash
