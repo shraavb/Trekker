@@ -22,6 +22,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'camera_node = ugv_vision.camera_node:main',
             'inspection_trigger_node = ugv_vision.inspection_trigger_node:main',
             'image_capture_node = ugv_vision.image_capture_node:main',
             'hazard_detector_node = ugv_vision.hazard_detector_node:main',

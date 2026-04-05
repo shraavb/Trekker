@@ -12,6 +12,13 @@ def generate_launch_description():
 
         Node(
             package='ugv_vision',
+            executable='camera_node',
+            name='camera_node',
+            output='screen',
+            parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        ),
+        Node(
+            package='ugv_vision',
             executable='inspection_trigger_node',
             name='inspection_trigger_node',
             output='screen',

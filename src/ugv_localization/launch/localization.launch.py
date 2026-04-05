@@ -24,6 +24,24 @@ def generate_launch_description():
         DeclareLaunchArgument('publish_tf', default_value='true',
                               description='Broadcast odom->base_link TF from odometry node'),
 
+        # --- Joint State Node ---
+        Node(
+            package='ugv_localization',
+            executable='joint_state_node',
+            name='joint_state_node',
+            output='screen',
+            parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        ),
+
+        # --- IMU Node ---
+        Node(
+            package='ugv_localization',
+            executable='imu_node',
+            name='imu_node',
+            output='screen',
+            parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        ),
+
         # --- Odometry Node ---
         Node(
             package='ugv_localization',

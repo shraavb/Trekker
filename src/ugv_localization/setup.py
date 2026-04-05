@@ -24,6 +24,8 @@ setup(
     entry_points={
         'console_scripts': [
             'odometry_node = ugv_localization.odometry_node:main',
+            'joint_state_node = ugv_localization.joint_state_node:main',
+            'imu_node = ugv_localization.imu_node:main',
         ],
     },
 )
